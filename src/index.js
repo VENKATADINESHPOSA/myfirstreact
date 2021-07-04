@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import PlayersSelection from "./Dream7";
+import PlayersSelection from './Dream7Hooks';
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import App from "./App";
 import NotFound from "./NotFound";
