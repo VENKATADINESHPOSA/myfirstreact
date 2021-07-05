@@ -1,5 +1,5 @@
 import React from "react";
-import players from "./players.json";
+import players from "../../mock/players.json";
 import { Link } from "react-router-dom";
 
 const style = {

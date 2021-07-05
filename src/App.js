@@ -1,12 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import Home from "./pages/Home/Home";
 
-function App() {
-  return (
-    <div>
-      <Link to="/dream7">Dream 7</Link>
-    </div>
-  );
-}
+const App = () => <Home />;
 
 export default App;
