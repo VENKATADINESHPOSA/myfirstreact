@@ -1,4 +1,3 @@
-import players from "../mock/players.json";
 import Player from "./Player";
 
 const PlayersList = ({
@@ -6,11 +5,12 @@ const PlayersList = ({
   addHandler,
   selectedPlayers,
   removeHandler,
+  playersList,
 }) => {
   return (
     <section className="section1">
       <h1>Players Selection</h1>
-      {players.map((player) => (
+      {playersList.map((player) => (
         <Player
           key={player.id}
           player={player}
