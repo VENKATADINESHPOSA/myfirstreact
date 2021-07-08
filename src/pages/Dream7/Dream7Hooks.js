@@ -1,20 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { Link } from "react-router-dom";
 import validateInput from "../../utils/validations";
 import PlayersList from "../../components/PlayersList";
 import SelectedPlayers from "../../components/SelectedPlayers";
 import players from "../../mock/players.json";
-
-const BAT_LIMIT = 3;
-const BALL_LIMIT = 2;
-const ALL_LIMIT = 2;
-const style = { paddingLeft: "5em", marginLeft: "5em" };
-const batsManPlayers = players.filter((player) => player.role === "Batsman");
-const bowlerPlayers = players.filter((player) => player.role === "Bowler");
-const allRounderPlayers = players.filter(
-  (player) => player.role === "All-Rounder"
-);
+import FilterBar from "../../components/FilterBar";
+import { BAT_LIMIT, BALL_LIMIT, ALL_LIMIT } from "../../constants";
 
 const PlayersSelection = () => {
   const [playersList, setPlayersList] = useState([]);
@@ -34,20 +26,23 @@ const PlayersSelection = () => {
       limit: ALL_LIMIT,
     },
   });
+  const [filter, setFilter] = useState("All");
 
-  const playersListFilter = (e) => {
-    if (e.target.value === "All") {
+  useEffect(() => {
+    setPlayersList(players);
+  }, []);
+
+  const getFilteredPlayers = (value) =>
+    players.filter((player) => player.role === value);
+
+  const playersListFilter = (i) => {
+    setFilter(i);
+    if (i === "All") {
       setPlayersList(players);
+      return;
     }
-    if (e.target.value === "Bowler") {
-      setPlayersList(bowlerPlayers);
-    }
-    if (e.target.value === "All-Rounder") {
-      setPlayersList(allRounderPlayers);
-    }
-    if (e.target.value === "Batsman") {
-      setPlayersList(batsManPlayers);
-    }
+
+    setPlayersList(getFilteredPlayers(i));
   };
 
   const addHandler = ({ name, role, points }) => {
@@ -113,41 +108,7 @@ const PlayersSelection = () => {
       </Link>
       <br />
       <br />
-      <input
-        type="radio"
-        name="playerslist"
-        id="All"
-        onClick={playersListFilter}
-        value="All"
-      />
-      <label htmlFor="All">All Players</label>
-      <input
-        type="radio"
-        name="playerslist"
-        id="Batsman"
-        onClick={playersListFilter}
-        value="Batsman"
-        style={style}
-      />
-      <label htmlFor="Batsman">Batsman Players</label>
-      <input
-        type="radio"
-        name="playerslist"
-        id="All-Rounder"
-        onClick={playersListFilter}
-        value="All-Rounder"
-        style={style}
-      />
-      <label htmlFor="All-Rounder">All-Rounder Players</label>
-      <input
-        type="radio"
-        name="playerslist"
-        id="Bowler"
-        onClick={playersListFilter}
-        value="Bowler"
-        style={style}
-      />
-      <label htmlFor="Bowler">Bowler Players</label>
+      <FilterBar playersListFilter={playersListFilter} filter={filter} />
       <PlayersList {...playerProps} />
       <SelectedPlayers {...selectedPlayerprops} />
     </>
